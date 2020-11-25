@@ -1,13 +1,16 @@
 import React, {Component} from 'react';
+
 export default class NewTaskForm extends Component {
     state = {
         label: ""
     }
+
     onLabelChange = (e) => {
         this.setState({
             label: e.target.value
         })
     }
+
     onSubmit = (e) => {
         e.preventDefault();
         if (this.state.label !== "") {
@@ -17,6 +20,7 @@ export default class NewTaskForm extends Component {
             })
         }
     }
+
     render() {
         const searchText = "What needs to be done?";
         return (

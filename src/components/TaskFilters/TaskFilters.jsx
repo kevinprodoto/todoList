@@ -6,6 +6,7 @@ export default class  TaskFilters extends Component {
         {name: "Active", label: "Active"},
         {name: "Completed", label: "Completed"}
     ]
+
     render() {
         const {filter, onFilterChange} = this.props;
         const buttons = this.buttons.map(({name, label}) => {

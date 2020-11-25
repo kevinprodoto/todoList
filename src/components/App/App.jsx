@@ -1,48 +1,22 @@
-import React, {Component} from 'react';
+/* eslint linebreak-style: ["error", "windows"] */
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import NewTaskForm from "./components/NewTaskForm/NewTaskForm"
-import TaskList from "./components/TaskList/TaskList";
+import NewTaskForm from '../NewTaskForm/NewTaskForm';
+import TaskList from '../TaskList/TaskList';
 
-export default class App extends Component  {
-  maxId = 100; 
+export default class App extends Component {
+  maxId = 100;
+
   state = {
     todoData: [
-      this.createTodoItem("Drink Coffee"),
-      this.createTodoItem("Make Awesome App"),
-      this.createTodoItem("Have a lunch")
+      this.createTodoItem('Drink Coffee'),
+      this.createTodoItem('Make Awesome App'),
+      this.createTodoItem('Have a lunch'),
     ],
-    filter: "All",
-    search: ""
+    filter: 'All',
+    search: '',
   }
-  filterItems(todoData, filter) {
-    switch(filter) {
-      case "All":
-        return todoData;
-       case "Active": 
-        return todoData.filter((item) => !item.completed);
-      case "Completed": 
-        return todoData.filter((item) => item.completed);
-      default:
-        return todoData;   
-    }
-  }
-  searchItems(todoData, search) {
-    if (search.length === 0) {
-      return todoData;
-    }
 
-    return todoData.filter((item) => {
-      return item.label.toLowerCase().indexOf(search.toLowerCase()) > -1;
-    });
-  }
-  createTodoItem(label) {
-    return {
-      label, 
-      edit: false,
-      completed: false,
-      id: this.maxId++
-    }
-  }
   deleteItem = (id) => {
     this.setState(({todoData}) => {
       const idx = todoData.findIndex((el) => el.id=== id);
@@ -52,6 +26,7 @@ export default class App extends Component  {
       }
     })
   }
+
   deleteAllCompleted = () => {
     this.setState(({todoData}) => {
       const newArray = [...todoData];
@@ -65,6 +40,7 @@ export default class App extends Component  {
       });
     })
   }
+
   addItem = (text) => {
     console.log("added", text)
     const newItem = this.createTodoItem(text);
@@ -75,12 +51,7 @@ export default class App extends Component  {
       }
     })
   }
-  toggleProp(arr, id, propName) {
-    const idx = arr.findIndex((el) => el.id === id);
-    const oldItem = arr[idx];
-    const newItem = {...oldItem, [propName]: !oldItem[propName]};
-    return [...arr.slice(0, idx), newItem, ...arr.slice(idx + 1)]
-  }
+
   onToggleCompleted = (id) => {
     this.setState(({todoData}) => {
       return {
@@ -88,6 +59,7 @@ export default class App extends Component  {
       }
     })
   }
+
   onToggleEdit = (id) => {
     this.setState(({todoData}) => {
       return {
@@ -95,13 +67,54 @@ export default class App extends Component  {
       }
     })
   }
+
   onFilterChange = (filter) => {
     this.setState({filter})
   }
+
+  toggleProp(arr, id, propName) {
+    const idx = arr.findIndex((el) => el.id === id);
+    const oldItem = arr[idx];
+    const newItem = {...oldItem, [propName]: !oldItem[propName]};
+    return [...arr.slice(0, idx), newItem, ...arr.slice(idx + 1)]
+  }
+
+  createTodoItem(label) {
+    return {
+      label, 
+      edit: false,
+      completed: false,
+      id: this.maxId++
+    }
+  }
+
+  searchItems(todoData, search) {
+    if (search.length === 0) {
+      return todoData;
+    }
+
+    return todoData.filter((item) => {
+      return item.label.toLowerCase().indexOf(search.toLowerCase()) > -1;
+    });
+  }
+
+  filterItems(todoData, filter) {
+    switch(filter) {
+      case "All":
+        return todoData;
+       case "Active": 
+        return todoData.filter((item) => !item.completed);
+      case "Completed": 
+        return todoData.filter((item) => item.completed);
+      default:
+        return todoData;   
+    }
+  }
+
   render() {
     const { todoData, filter, search } = this.state;
-    const completedCount = this.state.todoData.filter((el) => el.completed).length;
-    const todoCount = this.state.todoData.length - completedCount;
+    const completedCount = filter((el) => el.completed).length;
+    const todoCount = todoData.length - completedCount;
     const visibleItems = this.searchItems(this.filterItems(todoData, filter), search);
     return (
       <section className="todoapp">
@@ -113,7 +126,7 @@ export default class App extends Component  {
         onToggleEdit={this.onToggleEdit}
         onClearAll={this.deleteAllCompleted}
         todoCount={todoCount}
-        filter = {this.state.filter}
+        filter = {filter}
         onFilterChange = {this.onFilterChange}/>
       </section>
     );
@@ -121,4 +134,4 @@ export default class App extends Component  {
 
 }
   
-  ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));

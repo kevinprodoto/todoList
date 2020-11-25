@@ -23,8 +23,8 @@ export default class Task extends Component {
                         <span className="description">{label}</span>
                         <span className="created">{formatDistanceToNow(new Date(), {addSuffix: true})}</span>
                     </label>
-                    <button className="icon icon-edit" onClick={onToggleEdit}></button>
-                    <button className="icon icon-destroy" onClick={onDeleted}></button>
+                    <button className="icon icon-edit" onClick={onToggleEdit} />
+                    <button className="icon icon-destroy" onClick={onDeleted} />
                 </div>
             </li>
         )

@@ -1,4 +1,3 @@
-/* eslint linebreak-style: ["error", "windows"] */
 import React from 'react';
 import PropTypes from 'prop-types';
 import NewTaskForm from '../NewTaskForm/NewTaskForm';
@@ -33,7 +32,7 @@ const App = ({addItem, visibleItems, deleteItem, onToggleCompleted, onToggleEdit
     onFilterChange: () => {},
     todoCount: 3,
     filter: "All",
-    
+
   }
 
   App.propTypes = {

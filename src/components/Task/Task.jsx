@@ -1,12 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
+import PropTypes from 'prop-types';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
-export default class Task extends Component {
-    render() {
-        const { label, onDeleted, 
-            onToggleCompleted, 
-            onToggleEdit, 
-            edit, completed} = this.props;
+const Task = ({ label, onDeleted, onToggleCompleted, onToggleEdit, edit, completed}) => {
 
         let classNames = "";
         if (completed) {
@@ -23,10 +19,26 @@ export default class Task extends Component {
                         <span className="description">{label}</span>
                         <span className="created">{formatDistanceToNow(new Date(), {addSuffix: true})}</span>
                     </label>
-                    <button className="icon icon-edit" onClick={onToggleEdit} />
-                    <button className="icon icon-destroy" onClick={onDeleted} />
+                    <button type = "button" aria-label="edit" className="icon icon-edit" onClick={onToggleEdit} />
+                    <button type = "button" aria-label="destroy" className="icon icon-destroy" onClick={onDeleted} />
                 </div>
             </li>
         )
-    };
 };
+Task.defaultProps = {
+    label: "",
+    onDeleted: () => {},
+    onToggleCompleted: () => {},
+    onToggleEdit: () => {},
+    edit: false,
+    completed: false
+}
+Task.propTypes = {
+    label: PropTypes.string,
+    onDeleted: PropTypes.func,
+    onToggleCompleted: PropTypes.func,
+    onToggleEdit: PropTypes.func,
+    edit: PropTypes.bool,
+    completed: PropTypes.bool
+}
+export default Task;

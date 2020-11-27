@@ -1,137 +1,50 @@
 /* eslint linebreak-style: ["error", "windows"] */
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react';
+import PropTypes from 'prop-types';
 import NewTaskForm from '../NewTaskForm/NewTaskForm';
 import TaskList from '../TaskList/TaskList';
 
-export default class App extends Component {
-  maxId = 100;
 
-  state = {
-    todoData: [
-      this.createTodoItem('Drink Coffee'),
-      this.createTodoItem('Make Awesome App'),
-      this.createTodoItem('Have a lunch'),
-    ],
-    filter: 'All',
-    search: '',
-  }
+const App = ({addItem, visibleItems, deleteItem, onToggleCompleted, onToggleEdit, deleteAllCompleted, todoCount, filter, onFilterChange}) => {
 
-  deleteItem = (id) => {
-    this.setState(({todoData}) => {
-      const idx = todoData.findIndex((el) => el.id=== id);
-      const newArray = [...todoData.slice(0, idx), ...todoData.slice(idx + 1)]
-      return {
-        todoData: newArray
-      }
-    })
-  }
-
-  deleteAllCompleted = () => {
-    this.setState(({todoData}) => {
-      const newArray = [...todoData];
-      newArray.forEach(item => {
-        if (item.completed) {
-          this.deleteItem(item.id);
-        }
-        return {
-          todoData: newArray
-        }       
-      });
-    })
-  }
-
-  addItem = (text) => {
-    console.log("added", text)
-    const newItem = this.createTodoItem(text);
-    this.setState(({todoData}) => {
-      const newArray = [...todoData, newItem]
-      return {
-        todoData: newArray
-      }
-    })
-  }
-
-  onToggleCompleted = (id) => {
-    this.setState(({todoData}) => {
-      return {
-        todoData: this.toggleProp(todoData, id, "completed")
-      }
-    })
-  }
-
-  onToggleEdit = (id) => {
-    this.setState(({todoData}) => {
-      return {
-        todoData: this.toggleProp(todoData, id, "edit")
-      }
-    })
-  }
-
-  onFilterChange = (filter) => {
-    this.setState({filter})
-  }
-
-  toggleProp(arr, id, propName) {
-    const idx = arr.findIndex((el) => el.id === id);
-    const oldItem = arr[idx];
-    const newItem = {...oldItem, [propName]: !oldItem[propName]};
-    return [...arr.slice(0, idx), newItem, ...arr.slice(idx + 1)]
-  }
-
-  createTodoItem(label) {
-    return {
-      label, 
-      edit: false,
-      completed: false,
-      id: this.maxId++
-    }
-  }
-
-  searchItems(todoData, search) {
-    if (search.length === 0) {
-      return todoData;
-    }
-
-    return todoData.filter((item) => {
-      return item.label.toLowerCase().indexOf(search.toLowerCase()) > -1;
-    });
-  }
-
-  filterItems(todoData, filter) {
-    switch(filter) {
-      case "All":
-        return todoData;
-       case "Active": 
-        return todoData.filter((item) => !item.completed);
-      case "Completed": 
-        return todoData.filter((item) => item.completed);
-      default:
-        return todoData;   
-    }
-  }
-
-  render() {
-    const { todoData, filter, search } = this.state;
-    const completedCount = filter((el) => el.completed).length;
-    const todoCount = todoData.length - completedCount;
-    const visibleItems = this.searchItems(this.filterItems(todoData, filter), search);
     return (
       <section className="todoapp">
-        <NewTaskForm onItemAdded={this.addItem}/>
+        <NewTaskForm onItemAdded={addItem}/>
         <TaskList 
         todos = {visibleItems}
-        onDeleted ={this.deleteItem}
-        onToggleCompleted={this.onToggleCompleted}
-        onToggleEdit={this.onToggleEdit}
-        onClearAll={this.deleteAllCompleted}
+        onDeleted ={deleteItem}
+        onToggleCompleted={onToggleCompleted}
+        onToggleEdit={onToggleEdit}
+        onClearAll={deleteAllCompleted}
         todoCount={todoCount}
         filter = {filter}
-        onFilterChange = {this.onFilterChange}/>
+        onFilterChange = {onFilterChange}/>
       </section>
     );
   }
 
-}
-  
-ReactDOM.render(<App />, document.getElementById('root'));
+  App.defaultProps = {
+    addItem: () => {},
+    visibleItems: () => {},
+    onToggleCompleted: () => {},
+    onToggleEdit: () => {},
+    deleteAllCompleted: () => {},
+    deleteItem: () => {},
+    onFilterChange: () => {},
+    todoCount: 3,
+    filter: "All",
+    
+  }
+
+  App.propTypes = {
+    addItem: PropTypes.func,
+    visibleItems: PropTypes.func,
+    onToggleCompleted: PropTypes.func,
+    onToggleEdit: PropTypes.func,
+    deleteAllCompleted: PropTypes.func,
+    deleteItem: PropTypes.func,
+    todoCount: PropTypes.number,
+    filter: PropTypes.string,
+    onFilterChange: PropTypes.func,
+  }
+export default App;

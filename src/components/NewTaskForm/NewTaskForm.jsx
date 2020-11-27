@@ -1,20 +1,24 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 export default class NewTaskForm extends Component {
+
     state = {
         label: ""
     }
 
-    onLabelChange = (e) => {
+    onLabelChange = (evv) => {
         this.setState({
-            label: e.target.value
+            label: evv.target.value
         })
     }
 
-    onSubmit = (e) => {
-        e.preventDefault();
-        if (this.state.label !== "") {
-            this.props.onItemAdded(this.state.label)
+    onSubmit = (evv) => {
+        evv.preventDefault();
+        const{label} = this.state;
+        const {onItemAdded} = this.props;
+        if (label !== "") {
+            onItemAdded(label)
             this.setState({
                 label: ""
             })
@@ -23,6 +27,7 @@ export default class NewTaskForm extends Component {
 
     render() {
         const searchText = "What needs to be done?";
+        const{label} = this.state;
         return (
             <header className="header">
                 <h1>todos</h1>
@@ -30,10 +35,16 @@ export default class NewTaskForm extends Component {
                     <input onChange={this.onLabelChange}
                     className="new-todo" 
                     placeholder={ searchText } 
-                    autoFocus
-                    value={this.state.label}/>
+                    value={label}/>
                 </form>
             </header>
         ) 
     }
 };
+NewTaskForm.defaultProps = {
+    onItemAdded: () => {},
+  }
+
+  NewTaskForm.propTypes = {
+    onItemAdded: PropTypes.func,
+  }

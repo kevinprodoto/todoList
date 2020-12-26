@@ -2,9 +2,10 @@ import React, {useState} from "react";
 import PropTypes from 'prop-types';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
-const Task = ({ label, onDeleted, onToggleCompleted, onToggleEdit, edit, completed, date, play, min, sec, onTogglePlay}) => {
+const Task = ({ label, onDeleted, onToggleCompleted, onToggleEdit, edit, completed, date, min, sec}) => {
 
     const [count, setCount] = useState(+min * 60 + +sec);
+    const [play, setPlay] = useState(false)
     let check =  "";
     let classNames = "";
     if (completed) {
@@ -16,11 +17,24 @@ const Task = ({ label, onDeleted, onToggleCompleted, onToggleEdit, edit, complet
     }
 
     const onPlay = () => {
-        setCount(count - 1)
+        setPlay(true);
     }
 
-    if (play) {
-        setInterval(onPlay(), 1000)
+    const onPause = () => {
+        setPlay(false);
+    }
+
+    const timerChange = () => {
+        setCount(count - 1);
+    }
+
+    const timer = () => {
+        const result = `${Math.floor(count / 60)}:${count - Math.floor(count / 60) * 60}`;
+        if (play) {
+            setInterval(timerChange, 1000);
+        }
+        console.log(count);
+        return result;
     }
 
     return (
@@ -30,9 +44,9 @@ const Task = ({ label, onDeleted, onToggleCompleted, onToggleEdit, edit, complet
                 <label>
                     <span className="title">{label}</span>
                     <span className="description">
-                        <button onClick = {onTogglePlay} type = "button" className="icon icon-play" aria-label="play" />
-                        <button type = "button" className="icon icon-pause" aria-label="pause" />
-                        {`${Math.floor(count / 60)}:${count - Math.floor(count / 60) * 60}`}
+                        <button onClick = {onPlay} type = "button" className="icon icon-play" aria-label="play" />
+                        <button onClick = {onPause} type = "button" className="icon icon-pause" aria-label="pause" />
+                        {timer()}
                     </span>
                     <span className="description">{formatDistanceToNow(date, {addSuffix: true})}</span>
                 </label>
@@ -52,11 +66,8 @@ Task.defaultProps = {
     date: new Date(),
     min: "00",
     sec: "00",
-    play: false,
-    onTogglePlay: () => {},
 }
 Task.propTypes = {
-    onTogglePlay: PropTypes.func,
     label: PropTypes.string,
     onDeleted: PropTypes.func,
     onToggleCompleted: PropTypes.func,
@@ -66,6 +77,5 @@ Task.propTypes = {
     date: PropTypes.func,
     min: PropTypes.string,
     sec: PropTypes.string,
-    play: PropTypes.bool,
 }
 export default Task;

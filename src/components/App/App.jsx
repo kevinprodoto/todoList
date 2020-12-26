@@ -4,7 +4,7 @@ import NewTaskForm from '../NewTaskForm/NewTaskForm';
 import TaskList from '../TaskList/TaskList';
 
 
-const App = ({addItem, visibleItems, deleteItem, onToggleCompleted, onToggleEdit, deleteAllCompleted, todoCount, filter, onFilterChange, onTogglePlay}) => {
+const App = ({addItem, visibleItems, deleteItem, onToggleCompleted, onToggleEdit, deleteAllCompleted, todoCount, filter, onFilterChange}) => {
     return (
       <section className="todoapp">
         <NewTaskForm onItemAdded={addItem}/>
@@ -16,8 +16,7 @@ const App = ({addItem, visibleItems, deleteItem, onToggleCompleted, onToggleEdit
         onClearAll={deleteAllCompleted}
         todoCount={todoCount}
         filter = {filter}
-        onFilterChange = {onFilterChange}
-        onTogglePlay = {onTogglePlay}/>
+        onFilterChange = {onFilterChange}/>
       </section>
     );
   }
@@ -32,7 +31,6 @@ const App = ({addItem, visibleItems, deleteItem, onToggleCompleted, onToggleEdit
     onFilterChange: () => {},
     todoCount: 3,
     filter: "All",
-    onTogglePlay:  () => {},
 }
 
   App.propTypes = {
@@ -45,6 +43,5 @@ const App = ({addItem, visibleItems, deleteItem, onToggleCompleted, onToggleEdit
     todoCount: PropTypes.number,
     filter: PropTypes.string,
     onFilterChange: PropTypes.func,
-    onTogglePlay: PropTypes.func,
   }
 export default App;

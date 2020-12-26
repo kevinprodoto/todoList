@@ -8,7 +8,6 @@
       id: maxId,
       date: new Date(),
       count: +min * 60 + +sec,
-      play: false,
     }
   };
 

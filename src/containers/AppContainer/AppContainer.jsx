@@ -65,14 +65,6 @@ export default class AppContainer extends Component {
         }
       })
     }
-
-    onTogglePlay = (id) => {
-      this.setState(({todoData}) => {
-        return {
-          todoData: this.toggleProp(todoData, id, "play")
-        }
-      })
-    }
   
     onFilterChange = (filter) => {
       this.setState({filter})
@@ -81,7 +73,6 @@ export default class AppContainer extends Component {
     toggleProp = (arr, id, propName) => {
       const idx = arr.findIndex((el) => el.id === id);
       const oldItem = arr[idx];
-      console.log(oldItem)
       const newItem = {...oldItem, [propName]: !oldItem[propName]};
       return [...arr.slice(0, idx), newItem, ...arr.slice(idx + 1)]
     }
@@ -102,7 +93,6 @@ export default class AppContainer extends Component {
                   deleteAllCompleted = {this.deleteAllCompleted}
                   todoCount = {todoCount}
                   filter = {filter}
-                  onFilterChange = {this.onFilterChange}
-                  onTogglePlay = {this.onTogglePlay}/>
+                  onFilterChange = {this.onFilterChange}/>
     }
   }

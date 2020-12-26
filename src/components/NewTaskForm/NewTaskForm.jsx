@@ -5,8 +5,8 @@ export default class NewTaskForm extends Component {
 
     state = {
         label: "",
-        min: "00",
-        sec: "00",
+        min: "",
+        sec: "",
     }
 
     onMinChange = (evv) => {
@@ -35,8 +35,8 @@ export default class NewTaskForm extends Component {
             onItemAdded(label, min, sec)
             this.setState({
                 label: "",
-                min: "00",
-                sec: "00",
+                min: "",
+                sec: "",
             })
         }
     }
@@ -54,8 +54,8 @@ export default class NewTaskForm extends Component {
                         placeholder={ searchText } 
                         value={label}/>
                     </form>
-                    <input className="new-todo-form__timer" placeholder="Min" onChange = {this.onMinChange} value={min}/>
-                    <input className="new-todo-form__timer" placeholder="Sec" onChange = {this.onSecChange} value={sec} />
+                    <form className = "todoForm" onSubmit={this.onSubmit}><input className="new-todo-form__timer" placeholder="Min" onChange = {this.onMinChange} value = {min} /></form>
+                    <form className = "todoForm" onSubmit={this.onSubmit}><input className="new-todo-form__timer" placeholder="Sec" onChange = {this.onSecChange} value = {sec} /></form>
                 </div>
             </header>
         ) 

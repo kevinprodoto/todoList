@@ -4,18 +4,18 @@ import PropTypes from 'prop-types';
 export default class TaskFilters extends Component {
 
     buttons = [
-        {name: "All", label: "All"},
-        {name: "Active", label: "Active"},
-        {name: "Completed", label: "Completed"}
+        {name: "All", label: "All", key: 1},
+        {name: "Active", label: "Active", key: 2},
+        {name: "Completed", label: "Completed", key: 3}
     ]
 
     render() {
         const {filter, onFilterChange} = this.props;
-        const buttons = this.buttons.map(({name, label}) => {
+        const buttons = this.buttons.map(({name, label, key}) => {
             const isSelected = filter === name;
             const clazz = isSelected ? "selected" : "";
                 return (
-                    <li className = {clazz}><button type = "button" onClick = {() => onFilterChange(name)}>{label}</button></li>
+                    <li key = {key} className = {clazz}><button type = "button" onClick = {() => onFilterChange(name)}>{label}</button></li>
                 )
         })
         return (

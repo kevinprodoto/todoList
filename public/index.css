@@ -84,6 +84,10 @@ body {
 	text-rendering: optimizeLegibility;
 }
 
+.todoForm {
+	width: 15%;
+}
+
 .new-todo-form {
 	display: flex;
 	margin-bottom: 0;
@@ -116,7 +120,6 @@ body {
 }
 
 .new-todo-form .new-todo-form__timer {
-	width: 15%;
 	padding-left: 16px;
 }
 

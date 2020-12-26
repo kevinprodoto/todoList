@@ -47,7 +47,7 @@ TaskList.propTypes = {
     onFilterChange: PropTypes.func,
     filter: PropTypes.string,
     map: PropTypes.func,
-    todos: PropTypes.node,
+    todos: PropTypes.instanceOf(Array),
     todoCount: PropTypes.number,
 }
   export default TaskList;

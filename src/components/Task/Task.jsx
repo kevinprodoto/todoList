@@ -10,7 +10,7 @@ const Task = ({ label, onDeleted, onToggleCompleted, onToggleEdit, edit, complet
     let classNames = "";
     if (completed) {
         classNames = "completed";
-        check = "checked"
+        
     }
     if (edit) {
         classNames = "edit"
@@ -33,18 +33,51 @@ const Task = ({ label, onDeleted, onToggleCompleted, onToggleEdit, edit, complet
             setTimeout(() => {timerChange()}, 1000)
         }
         
-      });
+    });
+
+    const checkChange = () => {
+        if (completed) {
+            check = "checked"
+        }
+        else {
+            check = "";
+        }
+    }
+
+
+    const timer = () => {
+        let mins = Math.floor(counter / 60);
+        let secs = counter - Math.floor(counter / 60) * 60;
+        if (counter > 0) {
+            if (mins < 10) {
+                mins = `0${mins}`
+            }
+            if (secs < 10) {
+                secs = `0${secs}`
+            }
+        }
+        if (counter < 0) {
+            if (mins > -10) {
+                mins = `-0${Math.abs(mins)}`
+            }
+            if (secs < 10) {
+                secs = `0${secs}`
+            }
+        }
+
+        return `${mins}:${secs}`;
+    } 
 
     return (
         <li className={classNames}>
             <div className="view">
-                <input onClick = {onToggleCompleted} className="toggle" type="checkbox" checked = {check}/>
+                <input onClick = {onToggleCompleted} className="toggle" type="checkbox" onChange = {checkChange} checked = {check}/>
                 <label>
                     <span className="title">{label}</span>
                     <span className="description">
                         <button onClick = {onPlay} type = "button" className="icon icon-play" aria-label="play" />
                         <button onClick = {onPause} type = "button" className="icon icon-pause" aria-label="pause" />
-                        {`${Math.floor(counter / 60)}:${counter - Math.floor(counter / 60) * 60}`}
+                        {timer()}
                     </span>
                     <span className="description">{formatDistanceToNow(date, {addSuffix: true})}</span>
                 </label>
@@ -62,7 +95,7 @@ Task.defaultProps = {
     edit: false,
     completed: false,
     date: new Date(),
-    count: "00",
+    count: 0,
 }
 Task.propTypes = {
     label: PropTypes.string,
@@ -71,7 +104,7 @@ Task.propTypes = {
     onToggleEdit: PropTypes.func,
     edit: PropTypes.bool,
     completed: PropTypes.bool,
-    date: PropTypes.func,
-    count: PropTypes.string,
+    date: PropTypes.instanceOf(Date),
+    count: PropTypes.number,
 }
 export default Task;

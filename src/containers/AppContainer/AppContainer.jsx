@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Tools from "../../tools/todo-processing";
+import {createTodoItem, searchItems, filterItems} from "../../tools/todo-processing";
 
 import App from "../../components/App/App"
 
@@ -8,9 +8,9 @@ export default class AppContainer extends Component {
 
     state = {
       todoData: [
-        Tools.createTodoItem('Drink Coffee'),
-        Tools.createTodoItem('Make Awesome App'),
-        Tools.createTodoItem('Have a lunch'),
+        createTodoItem('Drink Coffee', "00", "00"),
+        createTodoItem('Make Awesome App', "00", "00"),
+        createTodoItem('Have a lunch', "00", "00"),
       ],
       filter: 'All',
       search: '',
@@ -40,8 +40,8 @@ export default class AppContainer extends Component {
       })
     }
   
-    addItem = (text) => {
-      const newItem = Tools.createTodoItem(text);
+    addItem = (text, min, sec) => {
+      const newItem = createTodoItem(text, min, sec);
       this.setState(({todoData}) => {
         const newArray = [...todoData, newItem]
         return {
@@ -65,6 +65,14 @@ export default class AppContainer extends Component {
         }
       })
     }
+
+    onTogglePlay = (id) => {
+      this.setState(({todoData}) => {
+        return {
+          todoData: this.toggleProp(todoData, id, "play")
+        }
+      })
+    }
   
     onFilterChange = (filter) => {
       this.setState({filter})
@@ -73,6 +81,7 @@ export default class AppContainer extends Component {
     toggleProp = (arr, id, propName) => {
       const idx = arr.findIndex((el) => el.id === id);
       const oldItem = arr[idx];
+      console.log(oldItem)
       const newItem = {...oldItem, [propName]: !oldItem[propName]};
       return [...arr.slice(0, idx), newItem, ...arr.slice(idx + 1)]
     }
@@ -84,7 +93,7 @@ export default class AppContainer extends Component {
 
       const todoCount = todoData.length - completedCount;
   
-      const visibleItems = Tools.searchItems(Tools.filterItems(todoData, filter), search);
+      const visibleItems = searchItems(filterItems(todoData, filter), search);
       return <App addItem = {this.addItem}
                   visibleItems = {visibleItems}
                   deleteItem = {this.deleteItem}
@@ -93,6 +102,7 @@ export default class AppContainer extends Component {
                   deleteAllCompleted = {this.deleteAllCompleted}
                   todoCount = {todoCount}
                   filter = {filter}
-                  onFilterChange = {this.onFilterChange}/>
+                  onFilterChange = {this.onFilterChange}
+                  onTogglePlay = {this.onTogglePlay}/>
     }
   }

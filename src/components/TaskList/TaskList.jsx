@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Task from "../Task/Task";
 import Footer from "../Footer/Footer"
 
-const TaskList = ({todos, onDeleted, onToggleCompleted, onToggleEdit, todoCount, onClearAll, filter, onFilterChange}) => {
+const TaskList = ({todos, onDeleted, onToggleCompleted, onToggleEdit, todoCount, onClearAll, filter, onFilterChange, onTogglePlay}) => {
     const elements = todos.map((item) => {
         const { id, ...itemProps} = item;
 
@@ -11,7 +11,8 @@ const TaskList = ({todos, onDeleted, onToggleCompleted, onToggleEdit, todoCount,
             <Task key ={id} {...itemProps} 
             onDeleted={() => onDeleted(id)}
             onToggleCompleted={() => onToggleCompleted(id)}
-            onToggleEdit={() => onToggleEdit(id)}/>
+            onToggleEdit={() => onToggleEdit(id)}
+            onTogglePlay = {() => onTogglePlay(id)}/>
         )
     })
 
@@ -36,7 +37,8 @@ TaskList.defaultProps = {
     onFilterChange: () => {},
     todoCount: 0,
     filter: "All",
-    map: () => {}
+    map: () => {},
+    onTogglePlay: () => {},
 }
 
 TaskList.propTypes = {
@@ -48,6 +50,7 @@ TaskList.propTypes = {
     filter: PropTypes.string,
     map: PropTypes.func,
     todos: PropTypes.node,
-    todoCount: PropTypes.number
+    todoCount: PropTypes.number,
+    onTogglePlay: PropTypes.func,
 }
   export default TaskList;

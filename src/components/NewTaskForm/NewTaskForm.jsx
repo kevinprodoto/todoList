@@ -4,7 +4,21 @@ import PropTypes from 'prop-types';
 export default class NewTaskForm extends Component {
 
     state = {
-        label: ""
+        label: "",
+        min: "00",
+        sec: "00",
+    }
+
+    onMinChange = (evv) => {
+        this.setState({
+            min: evv.target.value
+        })
+    }
+
+    onSecChange = (evv) => {
+        this.setState({
+            sec: evv.target.value
+        })
     }
 
     onLabelChange = (evv) => {
@@ -15,28 +29,34 @@ export default class NewTaskForm extends Component {
 
     onSubmit = (evv) => {
         evv.preventDefault();
-        const{label} = this.state;
+        const{label, min, sec} = this.state;
         const {onItemAdded} = this.props;
         if (label !== "") {
-            onItemAdded(label)
+            onItemAdded(label, min, sec)
             this.setState({
-                label: ""
+                label: "",
+                min: "00",
+                sec: "00",
             })
         }
     }
 
     render() {
         const searchText = "What needs to be done?";
-        const{label} = this.state;
+        const{label, min, sec} = this.state;
         return (
             <header className="header">
                 <h1>todos</h1>
-                <form onSubmit={this.onSubmit}>
-                    <input onChange={this.onLabelChange}
-                    className="new-todo" 
-                    placeholder={ searchText } 
-                    value={label}/>
-                </form>
+                <div className = "new-todo-form">
+                    <form onSubmit={this.onSubmit}>
+                        <input onChange={this.onLabelChange}
+                        className="new-todo" 
+                        placeholder={ searchText } 
+                        value={label}/>
+                    </form>
+                    <input className="new-todo-form__timer" placeholder="Min" onChange = {this.onMinChange} value={min}/>
+                    <input className="new-todo-form__timer" placeholder="Sec" onChange = {this.onSecChange} value={sec} />
+                </div>
             </header>
         ) 
     }

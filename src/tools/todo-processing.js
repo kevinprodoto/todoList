@@ -1,17 +1,19 @@
-
-const Tools = {
-  maxId: 100,
-  createTodoItem: (label) => {
-    Tools.maxId += 1;
+  let maxId = 100;
+  export const createTodoItem = (label, min, sec) => {
+    maxId += 1;
     return {
       label, 
       edit: false,
       completed: false,
-      id: Tools.maxId
+      id: maxId,
+      date: new Date(),
+      min,
+      sec,
+      play: false,
     }
-  },
+  };
 
-  searchItems: (todoData, search) => {
+  export const searchItems = (todoData, search) => {
       if (search.length === 0) {
         return todoData;
       }
@@ -19,9 +21,9 @@ const Tools = {
       return todoData.filter((item) => {
         return item.label.toLowerCase().indexOf(search.toLowerCase()) > -1;
       });
-  },
+  };
 
-  filterItems: (todoData, filter) => {
+  export const filterItems = (todoData, filter) => {
       switch(filter) {
         case "All":
           return todoData;
@@ -32,6 +34,4 @@ const Tools = {
         default:
           return todoData;   
       }
-  },
-}
-export default Tools;
+  };

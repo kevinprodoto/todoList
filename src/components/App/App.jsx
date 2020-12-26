@@ -4,8 +4,7 @@ import NewTaskForm from '../NewTaskForm/NewTaskForm';
 import TaskList from '../TaskList/TaskList';
 
 
-const App = ({addItem, visibleItems, deleteItem, onToggleCompleted, onToggleEdit, deleteAllCompleted, todoCount, filter, onFilterChange}) => {
-
+const App = ({addItem, visibleItems, deleteItem, onToggleCompleted, onToggleEdit, deleteAllCompleted, todoCount, filter, onFilterChange, onTogglePlay}) => {
     return (
       <section className="todoapp">
         <NewTaskForm onItemAdded={addItem}/>
@@ -17,14 +16,15 @@ const App = ({addItem, visibleItems, deleteItem, onToggleCompleted, onToggleEdit
         onClearAll={deleteAllCompleted}
         todoCount={todoCount}
         filter = {filter}
-        onFilterChange = {onFilterChange}/>
+        onFilterChange = {onFilterChange}
+        onTogglePlay = {onTogglePlay}/>
       </section>
     );
   }
 
   App.defaultProps = {
     addItem: () => {},
-    visibleItems: () => {},
+    visibleItems: [],
     onToggleCompleted: () => {},
     onToggleEdit: () => {},
     deleteAllCompleted: () => {},
@@ -32,12 +32,12 @@ const App = ({addItem, visibleItems, deleteItem, onToggleCompleted, onToggleEdit
     onFilterChange: () => {},
     todoCount: 3,
     filter: "All",
-
-  }
+    onTogglePlay:  () => {},
+}
 
   App.propTypes = {
     addItem: PropTypes.func,
-    visibleItems: PropTypes.func,
+    visibleItems: PropTypes.instanceOf(Array),
     onToggleCompleted: PropTypes.func,
     onToggleEdit: PropTypes.func,
     deleteAllCompleted: PropTypes.func,
@@ -45,5 +45,6 @@ const App = ({addItem, visibleItems, deleteItem, onToggleCompleted, onToggleEdit
     todoCount: PropTypes.number,
     filter: PropTypes.string,
     onFilterChange: PropTypes.func,
+    onTogglePlay: PropTypes.func,
   }
 export default App;

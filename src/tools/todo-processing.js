@@ -7,8 +7,7 @@
       completed: false,
       id: maxId,
       date: new Date(),
-      min,
-      sec,
+      count: +min * 60 + +sec,
       play: false,
     }
   };

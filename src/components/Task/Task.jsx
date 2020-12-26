@@ -1,11 +1,11 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import PropTypes from 'prop-types';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
-const Task = ({ label, onDeleted, onToggleCompleted, onToggleEdit, edit, completed, date, min, sec}) => {
+const Task = ({ label, onDeleted, onToggleCompleted, onToggleEdit, edit, completed, date, count}) => {
 
-    const [count, setCount] = useState(+min * 60 + +sec);
-    const [play, setPlay] = useState(false)
+    const [counter, setCounter] = useState(count);
+    const [play, setPlay] = useState(false);
     let check =  "";
     let classNames = "";
     if (completed) {
@@ -18,24 +18,22 @@ const Task = ({ label, onDeleted, onToggleCompleted, onToggleEdit, edit, complet
 
     const onPlay = () => {
         setPlay(true);
-    }
+    } 
 
     const onPause = () => {
         setPlay(false);
     }
 
     const timerChange = () => {
-        setCount(count - 1);
+        setCounter(counter - 1);
     }
 
-    const timer = () => {
-        const result = `${Math.floor(count / 60)}:${count - Math.floor(count / 60) * 60}`;
+    useEffect(() => {
         if (play) {
-            setInterval(timerChange, 1000);
+            setTimeout(() => {timerChange()}, 1000)
         }
-        console.log(count);
-        return result;
-    }
+        
+      });
 
     return (
         <li className={classNames}>
@@ -46,7 +44,7 @@ const Task = ({ label, onDeleted, onToggleCompleted, onToggleEdit, edit, complet
                     <span className="description">
                         <button onClick = {onPlay} type = "button" className="icon icon-play" aria-label="play" />
                         <button onClick = {onPause} type = "button" className="icon icon-pause" aria-label="pause" />
-                        {timer()}
+                        {`${Math.floor(counter / 60)}:${counter - Math.floor(counter / 60) * 60}`}
                     </span>
                     <span className="description">{formatDistanceToNow(date, {addSuffix: true})}</span>
                 </label>
@@ -64,8 +62,7 @@ Task.defaultProps = {
     edit: false,
     completed: false,
     date: new Date(),
-    min: "00",
-    sec: "00",
+    count: "00",
 }
 Task.propTypes = {
     label: PropTypes.string,
@@ -75,7 +72,6 @@ Task.propTypes = {
     edit: PropTypes.bool,
     completed: PropTypes.bool,
     date: PropTypes.func,
-    min: PropTypes.string,
-    sec: PropTypes.string,
+    count: PropTypes.string,
 }
 export default Task;

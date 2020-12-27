@@ -10,6 +10,7 @@ const Task = ({ label, onDeleted, onToggleCompleted, onToggleEdit, edit, complet
     let classNames = "";
     if (completed) {
         classNames = "completed";
+        check = "checked"
         
     }
     if (edit) {
@@ -34,15 +35,6 @@ const Task = ({ label, onDeleted, onToggleCompleted, onToggleEdit, edit, complet
         }
         
     });
-
-    const checkChange = () => {
-        if (completed) {
-            check = "checked"
-        }
-        else {
-            check = "";
-        }
-    }
 
 
     const timer = () => {
@@ -71,7 +63,7 @@ const Task = ({ label, onDeleted, onToggleCompleted, onToggleEdit, edit, complet
     return (
         <li className={classNames}>
             <div className="view">
-                <input onClick = {onToggleCompleted} className="toggle" type="checkbox" onChange = {checkChange} checked = {check}/>
+                <input onClick = {onToggleCompleted} className="toggle" type="checkbox" checked = {check}/>
                 <label>
                     <span className="title">{label}</span>
                     <span className="description">
